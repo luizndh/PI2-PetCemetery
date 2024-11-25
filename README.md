@@ -1,6 +1,6 @@
 # PetCemetery
 
-Pet Cemetery é uma plataforma online inovadora dedicada ao gerenciamento de jazigos que permite os donos de pets falecidos escolherem e administrarem seus jazigos com facilidade. Cada jazigo possui um número único e uma localização específica dentro do cemitério, facilitando a localização e a identificação das sepulturas. Os clientes podem adquirir jazigos mesmo que não tenham pets para enterro. Todo jazigo tem um histórico.
+Pet Cemetery é uma plataforma online inovadora dedicada ao gerenciamento de jazigos que permite os donos de pets falecidos escolherem e administrarem seus jazigos com facilidade. Cada jazigo possui um número único de identificação e uma localização específica dentro do cemitério, facilitando a localização e a identificação das sepulturas. Os clientes podem adquirir jazigos mesmo que não tenham pets para enterro. Todo jazigo tem um histórico.
 
 A plataforma permite aos clientes acessarem o sistema, visualizarem o mapa do cemitério e selecionarem um jazigo específico. Os jazigos devem ter um tamanho padrão. Jazigos podem ser comprados de forma perpétua ou alugados por 3 anos. Os jazigos podem ser personalizados com uma foto e uma mensagem de até 80 caracteres. A personalização de jazigo deve ter a aprovação do administrador. Os clientes podem configurar lembretes de visitas regulares ao jazigo e adicionar notas para manter o registro de eventos da vida do pet. Não é permitido revender ou transferir jazigos para outras pessoas.
 
