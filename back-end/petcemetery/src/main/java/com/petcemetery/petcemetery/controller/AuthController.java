@@ -64,13 +64,9 @@ public class AuthController {
             // Checa se o email é válido através de regex e exibe uma mensagem de erro
         } else if (!EmailValidator.isValid(email)) {
             return ResponseEntity.ok("ERR;email_invalido");
-            // Checa se já existe um cliente cadastrado com o email fornecido e exibe uma
-            // mensagem de erro
-        } else if (clienteRepository.findByEmail(email) != null) {
-            return ResponseEntity.ok("ERR;email_ja_cadastrado");
 
             // Adiciona o cliente no banco de dados
-        } else {
+        } else { 
             clienteRepository.save(new Cliente(email, telefone, nome, cpf, cep, rua, numero, complemento, senha));
             return ResponseEntity.ok("OK;" + cpf);
         }

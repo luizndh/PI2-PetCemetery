@@ -1,7 +1,5 @@
 package com.petcemetery.petcemetery.model;
 
-import java.time.LocalTime;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +16,7 @@ public class HorarioFuncionamento {
     @Id
     private Long id;
     private String diaSemana;
-    private LocalTime abertura;
-    private LocalTime fechamento;
+    private String abertura;
+    private String fechamento;
     private boolean fechado;
 }
