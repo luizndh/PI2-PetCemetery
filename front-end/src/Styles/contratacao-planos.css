@@ -1,0 +1,39 @@
+ .plano#basic {
+   background-color: #ffffff;
+ }
+
+ .plano#silver {
+   background-color: #7a7a7a;
+ }
+
+ .plano#gold {
+   background-color: #ffd700;
+ }
+
+.fcl {
+   color: black;
+   display: flex;
+   text-align: left;
+   align-items: center;
+ }
+
+ .planos {
+   display: flex;
+   justify-content: space-between;
+   justify-content: center;
+ }
+
+ .plano {
+   width: 40%;
+   padding: 20px;
+   box-sizing: border-box;
+   border: 4px solid black;
+   text-align: center;
+   margin: 10%;
+ }
+
+ .plano h2 {
+   font-size: 24px;
+   margin: 0 0 10px 0;
+   color: black;
+ }

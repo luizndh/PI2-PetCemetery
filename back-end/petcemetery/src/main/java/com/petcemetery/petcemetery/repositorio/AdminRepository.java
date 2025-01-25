@@ -1,4 +1,4 @@
-package com.petcemetery.petcemetery.repository;
+package com.petcemetery.petcemetery.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

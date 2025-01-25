@@ -1,0 +1,76 @@
+/*Mobile*/
+@media only screen and (max-width: 600px) {
+    body {
+      background-color: #333333;
+      color: #ffffff;
+      font-family: 'Creepster', cursive;
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    p {
+      font-size: 1em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 30px;
+      border: none;
+      border-radius: 5px;
+      background-color: #e60000;
+      color: #ffffff;
+      cursor: pointer;
+      text-shadow: none;
+    }
+  }
+  
+  /*Desktop*/
+  @media only screen and (min-width: 601px) {
+    body {
+      background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fcemetary&psig=AOvVaw2lNzlmjZ0QEA1Cs5ZrQdnj&ust=1683647490064000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCOjjuOWJ5v4CFQAAAAAdAAAAABAE');
+      background-size: cover;
+      color: #ffffff;
+      font-family: 'Creepster', cursive;
+      padding: 50px;
+    }
+  
+    h1 {
+      font-size: 4em;
+      text-align: center;
+      margin-bottom: 50px;
+      text-shadow: 2px 2px #000000;
+    }
+  
+    p {
+      font-size: 1.5em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px #000000;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 30px;
+      border: none;
+      border-radius: 5px;
+      background-color: #e60000;
+      color: #ffffff;
+      cursor: pointer;
+      text-shadow: none;
+    }
+  }

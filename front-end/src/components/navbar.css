@@ -1,0 +1,8 @@
+.logoImg {
+  width: 480px;
+  height: 480px;
+  max-height: fit-content;
+  max-width: fit-content  ;
+  top: 0;
+  left: 0;
+}

@@ -1,7 +1,10 @@
 package com.petcemetery.petcemetery.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,8 +23,8 @@ public class Cliente extends Usuario {
     @Column(name = "inadimplente")
     private Boolean inadimplente;
 
-    // @OneToMany(mappedBy = "cliente")
-    // private List<Pagamento> pagamentos;
+    @OneToMany(mappedBy = "cliente")
+    private List<Pagamento> pagamentos;
 
     public Cliente(String email, String telefone, String nome, String cpf, String senha) {
         super(email, telefone, nome, cpf, senha);
@@ -34,11 +37,11 @@ public class Cliente extends Usuario {
         this.inadimplente = false;
     }
 
-    // public void addPagamento(Pagamento pagamento) {
-    //     this.pagamentos.add(pagamento);
-    // }
-    // public void removePagamento(Pagamento pagamento) {
-    //     this.pagamentos.remove(pagamento);
-    // }
+    public void addPagamento(Pagamento pagamento) {
+        this.pagamentos.add(pagamento);
+    }
+    public void removePagamento(Pagamento pagamento) {
+        this.pagamentos.remove(pagamento);
+    }
 
 }

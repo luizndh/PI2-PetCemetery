@@ -1,4 +1,4 @@
-package com.petcemetery.petcemetery.utils;
+package com.petcemetery.petcemetery.outros;
 import java.util.regex.Pattern;
 
 public class EmailValidator {

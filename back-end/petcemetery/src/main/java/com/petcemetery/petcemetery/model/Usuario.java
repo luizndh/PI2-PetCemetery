@@ -1,5 +1,4 @@
 package com.petcemetery.petcemetery.model;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -12,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usuario {
+
     @Id
     @Column(name = "cpf")
     private String cpf;

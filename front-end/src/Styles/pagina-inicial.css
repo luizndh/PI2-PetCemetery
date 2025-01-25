@@ -1,0 +1,13 @@
+.logoImg {
+  width: 30%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 3%;
+}
+
+@media screen and (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
+  }
+}
