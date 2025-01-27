@@ -66,7 +66,7 @@ public class ClienteController {
     @PostMapping("/lembrete")
     public boolean adicionarLembrete(@PathVariable String cpf, @RequestParam LocalDate data) {
         if (LocalDate.now().isAfter(data)) {
-            return false;
+            throw new IllegalArgumentException("A data informada não pode ser no passado");
         }
 
         Cliente cliente = clienteService.findByCpf(cpf);

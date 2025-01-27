@@ -24,7 +24,7 @@ public class AuthService {
 
         if (cliente != null) {
             if(cliente.getDesativado()) {
-                return "conta desativada";
+                throw new IllegalArgumentException("Cliente desativado");
             }
 
         return cliente.getCpf();
@@ -33,7 +33,7 @@ public class AuthService {
             return admin.getCpf();
 
         } else {
-            return "informações inválidas";
+            throw new IllegalArgumentException("Email ou senha incorretos");
         }
     }
 
@@ -45,20 +45,20 @@ public class AuthService {
             || StringUtils.isBlank(senhaRepetida)
             || StringUtils.isBlank(cep) || StringUtils.isBlank(rua) || StringUtils.isBlank(numero) || StringUtils.isBlank(cpf)
             || StringUtils.isBlank(telefone)) {
-            return "campo vazio";
-            // Formato: STATUS;dados
+            
+            throw new IllegalArgumentException("Preencha todos os campos necessários");
 
             // Checa se a senha é igual a senha repetida e exibe uma mensagem de erro
         } else if (!senha.equals(senhaRepetida)) {
-            return "senhas diferentes";
+            throw new IllegalArgumentException("As senhas devem ser iguais");
 
             // Checa se o email é válido através de regex e exibe uma mensagem de erro
         } else if (!EmailValidator.isValid(email)) {
-            return "formato invalido do email";
+            throw new IllegalArgumentException("Formato de email inválido");
             // Checa se já existe um cliente cadastrado com o email fornecido e exibe uma
             // mensagem de erro
         } else if (clienteService.findByEmail(email) != null) {
-            return "email ja cadastrado";
+            throw new IllegalArgumentException("Esse email já está cadastrado");
 
             // Adiciona o cliente no banco de dados
         } else {

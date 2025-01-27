@@ -20,4 +20,10 @@ public class CustomExceptionHandler {
         ApiErrorMessage error = new ApiErrorMessage(404, e.getMessage());
         return ResponseEntity.status(error.getCodigo()).body(error);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiErrorMessage> tratarErro500(RuntimeException e) {
+        ApiErrorMessage error = new ApiErrorMessage(500, e.getMessage());
+        return ResponseEntity.status(error.getCodigo()).body(error);
+    }
 }

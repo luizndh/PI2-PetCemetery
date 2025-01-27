@@ -17,15 +17,14 @@ public class HorarioFuncionamentoService {
     @Autowired
     private HorarioFuncionamentoRepository repository;
 
-    public boolean alterarHorarioFuncionamento(List<HorarioFuncionamentoDTO> horarios) {
+    public void alterarHorarioFuncionamento(List<HorarioFuncionamentoDTO> horarios) {
         try {
             for(HorarioFuncionamentoDTO horarioDTO : horarios) {
                 HorarioFuncionamento horario = convertToModel(horarioDTO);
                 repository.save(horario);
             }
-            return true;
         } catch (Exception e) {
-            return false;
+            throw new IllegalArgumentException("Não foi possível alterar os horários de funcionamento");
         }
     }
 

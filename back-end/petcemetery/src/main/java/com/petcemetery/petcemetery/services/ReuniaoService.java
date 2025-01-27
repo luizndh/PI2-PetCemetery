@@ -45,7 +45,7 @@ public class ReuniaoService {
     public boolean agendarReuniao(String cpf, Reuniao reuniao) {
         // Verificando se a reunião está sendo agendada com uma antecedência de dois dias
         if(reuniao.getData().toLocalDate().isBefore(LocalDate.now().minusDays(2))) {
-            return false;
+            throw new IllegalArgumentException("A reunião deve ser agendada com uma antecedência mínima de dois dias");
         }
 
         Cliente cliente = clienteService.findByCpf(cpf);

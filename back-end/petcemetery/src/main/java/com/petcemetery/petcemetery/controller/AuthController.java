@@ -23,23 +23,15 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> login(@RequestBody Map<String, String> loginRequest) {
+    public String login(@RequestBody Map<String, String> loginRequest) {
         String email = loginRequest.get("email");
         String senha = loginRequest.get("senha");
 
-        String resposta = this.authService.login(email, senha);
-
-        if (resposta.chars().anyMatch(Character::isDigit)) {
-            return ResponseEntity.ok(resposta);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resposta);
-        }
+        return this.authService.login(email, senha);
     }
 
     @PostMapping(path = "/cadastro", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> cadastro(@RequestBody Map<String, Object> requestBody) {
-
-
+    public String cadastro(@RequestBody Map<String, Object> requestBody) {
         String email = (String) requestBody.get("email");
         String senha = (String) requestBody.get("senha");
         String senhaRepetida = (String) requestBody.get("senharepeat");
@@ -54,12 +46,6 @@ public class AuthController {
         String nome = (String) requestBody.get("nome");
         String telefone = (String) requestBody.get("telefone");
 
-        String resposta = this.authService.cadastro(email, senha, senhaRepetida, cpf, cep, rua, numero, complemento, nome, telefone);
-
-        if (resposta.chars().anyMatch(Character::isDigit)) {
-            return ResponseEntity.ok(resposta);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
-        }
+        return this.authService.cadastro(email, senha, senhaRepetida, cpf, cep, rua, numero, complemento, nome, telefone);        
     }
 }

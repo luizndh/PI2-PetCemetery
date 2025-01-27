@@ -76,7 +76,7 @@ public class ContratoService {
 
             return pdfBytes;
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Erro ao gerar PDF");
         }
     }
 
@@ -130,7 +130,7 @@ public class ContratoService {
 
             return pdfBytes;
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Erro ao gerar PDF");
         }
     }
 
@@ -145,6 +145,10 @@ public class ContratoService {
         }
 
         return despesasDTO;
+    }
+
+    public void save(Contrato contrato) {
+        this.repository.save(contrato);
     }
 
 }

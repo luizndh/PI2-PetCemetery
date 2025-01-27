@@ -13,6 +13,7 @@ import com.petcemetery.petcemetery.model.Admin;
 import com.petcemetery.petcemetery.model.Cliente;
 import com.petcemetery.petcemetery.model.Jazigo;
 import com.petcemetery.petcemetery.model.Pet;
+import com.petcemetery.petcemetery.repositorio.AdminRepository;
 import com.petcemetery.petcemetery.repositorio.ClienteRepository;
 import com.petcemetery.petcemetery.repositorio.HorarioFuncionamentoRepository;
 
@@ -34,6 +35,9 @@ public class AdminService {
     @Autowired
     private HorarioFuncionamentoRepository horarioFuncionamentoRepository;
 
+    @Autowired
+    private AdminRepository repository;
+
     public List<HistoricoJazigoDTO> visualizarHistorico(Long id) {
         Jazigo jazigo = this.jazigoService.findById(id);
         List<HistoricoJazigoDTO> historico = new ArrayList<>();
@@ -50,14 +54,9 @@ public class AdminService {
         return historico;
     }
 
-    public boolean alterarHorarioFuncionamento(List<HorarioFuncionamentoDTO> horarios) {
-        boolean horarioAlterado = this.horarioFuncionamentoService.alterarHorarioFuncionamento(horarios);
-
-        if(horarioAlterado) {
-            this.notificaClientes();
-            return true;
-        }
-        return false;
+    public void alterarHorarioFuncionamento(List<HorarioFuncionamentoDTO> horarios) {
+        this.horarioFuncionamentoService.alterarHorarioFuncionamento(horarios);
+        this.notificaClientes();
     }
 
 
@@ -86,7 +85,6 @@ public class AdminService {
     }
 
     public Admin findByEmailAndSenha(String email, String senha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByEmailAndSenha'");
+        return this.repository.findByEmailAndSenha(email, senha);
     }
 }

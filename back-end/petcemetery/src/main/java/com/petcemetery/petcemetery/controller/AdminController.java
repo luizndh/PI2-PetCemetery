@@ -86,7 +86,7 @@ public class AdminController {
     // "sexta": {"abertura": "HH:MM", "fechamento": "HH:MM", "fechado": "true" }, "sabado": {"abertura": "HH:MM", "fechamento": "HH:MM", "fechado": "false" },
     // "domingo": {"abertura": "HH:MM", "fechamento": "HH:MM", "fechado": "true" }, "feriado": {"abertura": "HH:MM", "fechamento": "HH:MM", "fechado": "true" }
     @PutMapping("/horarios")
-    public boolean alterarHorarioFuncionamento(@RequestBody Map<String, Map<String, Object>> body) {
+    public void alterarHorarioFuncionamento(@RequestBody Map<String, Map<String, Object>> body) {
         List<HorarioFuncionamentoDTO> horarios = new ArrayList<>();
 
         for (Entry<String, Map<String, Object>> entry : body.entrySet()) {
@@ -100,7 +100,7 @@ public class AdminController {
             horarios.add(horarioDTO);
         }
 
-        return adminService.alterarHorarioFuncionamento(horarios);
+        adminService.alterarHorarioFuncionamento(horarios);
     }
 
     // Retorna todos os horários de funcionamento para serem exibidos quando o admin entrar na tela de Alterar Horário de Funcionamento
@@ -184,7 +184,7 @@ public class AdminController {
         List<JazigoDTO> jazigos = this.jazigoService.getJazigos();
 
         if (jazigos == null) {
-            return ResponseEntity.notFound().build();
+            throw new NoSuchElementException("Não existem jazigos na nossa base de dados");
         }
 
         byte[] pdfBytes = this.jazigoService.gerarPDFJazigos(jazigos);
@@ -209,7 +209,7 @@ public class AdminController {
             dataAvancada = LocalDate.parse(data);
         }
         catch (DateTimeException e){
-            return false;
+            throw new IllegalArgumentException("Formato de data inválido");
         }
 
         VerificadorData.setCurrentDate(dataAvancada);

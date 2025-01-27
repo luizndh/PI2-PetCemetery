@@ -35,8 +35,7 @@ public class ClienteService {
     }
 
     public Cliente findByEmailAndSenha(String email, String senha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByEmailAndSenha'");
+        return this.repository.findByEmailAndSenha(email, senha);
     }
 
     public void save(Cliente cliente) {
@@ -68,7 +67,7 @@ public class ClienteService {
                         break;
                     case "email":
                         if (!EmailValidator.isValid((String) valor)) {
-                            return false;
+                            throw new IllegalArgumentException("Formato de email inválido");
                         }
                         cliente.setEmail((String) valor);
                         break;
@@ -88,9 +87,9 @@ public class ClienteService {
                         cliente.setCep((String) valor);
                         break;
                     case "senha":
-                        String senha_repetida = (String) requestBody.get("senharepeat");
-                        if (!valor.equals(senha_repetida)) {
-                            return false;
+                        String senhaRepetida = (String) requestBody.get("senharepeat");
+                        if (!valor.equals(senhaRepetida)) {
+                            throw new IllegalArgumentException("As senhas devem ser iguais");
                         }
                         cliente.setSenha((String) valor);
                         break;
@@ -106,7 +105,7 @@ public class ClienteService {
         Cliente cliente = repository.findByCpf(cpf);
 
         if (cliente.getDesativado()) {
-            return false;
+            throw new IllegalArgumentException("Cliente já desativado");
         }
 
         cliente.setDesativado(true);
@@ -118,7 +117,7 @@ public class ClienteService {
         Cliente cliente = repository.findByCpf(cpf);
 
         if (cliente.getDesativado()) {
-            return null;
+            throw new IllegalArgumentException("Cliente já desativado");
         }
 
         return new ClienteDTO(
@@ -136,7 +135,7 @@ public class ClienteService {
         Cliente cliente = repository.findByCpf(cpf);
 
         if (cliente.getDesativado()) {
-            return null;
+            throw new IllegalArgumentException("Cliente já desativado");
         }
 
         return new ClientePerfilDTO(

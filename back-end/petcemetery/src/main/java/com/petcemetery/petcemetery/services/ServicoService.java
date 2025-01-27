@@ -30,8 +30,8 @@ public class ServicoService {
         return true;
     }
 
-    public Servico findByTipoServico(ServicoEnum compra) {
-        return this.repository.findByTipoServico(compra);
+    public Servico findByTipoServico(ServicoEnum servico) {
+        return this.repository.findByTipoServico(servico);
     }
 
     public List<Servico> listarPlanos() {

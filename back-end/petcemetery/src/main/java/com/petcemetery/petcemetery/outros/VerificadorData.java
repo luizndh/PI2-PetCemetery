@@ -91,7 +91,6 @@ public class VerificadorData {
     @Scheduled(cron = "*/30 * * * * ?")
     public void checaExumacoes() {
         LocalDate dataAtual = VerificadorData.getCurrentDate();
-        System.out.println(dataAtual.toString());
         List<Contrato> contratos = contratoRepository.findAll();
 
 
