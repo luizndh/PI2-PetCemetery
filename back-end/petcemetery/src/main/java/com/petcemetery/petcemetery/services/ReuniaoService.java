@@ -1,6 +1,7 @@
 package com.petcemetery.petcemetery.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ReuniaoService {
         for (Reuniao reuniao : reunioes) {
             ReuniaoDTO reuniaoDTO = new ReuniaoDTO(
                 reuniao.getCliente().getCpf(),
-                reuniao.getData(),
+                reuniao.getData().toString(),
                 reuniao.getAssunto()
             );
 
@@ -42,7 +43,11 @@ public class ReuniaoService {
         return reunioesDTO;
     }
 
-    public boolean agendarReuniao(String cpf, Reuniao reuniao) {
+    public boolean agendarReuniao(String cpf, ReuniaoDTO reuniaoDTO) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        Reuniao reuniao = new Reuniao();
+        reuniao.setAssunto(reuniaoDTO.getAssunto());
+        reuniao.setData(LocalDateTime.parse(reuniaoDTO.getData(), formatter));
         // Verificando se a reunião está sendo agendada com uma antecedência de dois dias
         if(reuniao.getData().toLocalDate().isBefore(LocalDate.now().minusDays(2))) {
             throw new IllegalArgumentException("A reunião deve ser agendada com uma antecedência mínima de dois dias");
@@ -51,12 +56,12 @@ public class ReuniaoService {
         Cliente cliente = clienteService.findByCpf(cpf);
         reuniao.setCliente(cliente);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         repository.save(reuniao);
 
         String[] to = {cliente.getEmail()};
-        emailService.sendEmail(to, "Agendamento de reunião", "Sua reunião foi agendada com sucesso para o dia " + reuniao.getData().toLocalDate().format(formatter) + ", no horário " + reuniao.getData().toLocalTime() + "!");
+        emailService.sendEmail(to, "Agendamento de reunião", "Sua reunião foi agendada com sucesso para o dia " + reuniao.getData().toLocalDate().format(formatter2) + "!");
         return true;
     }
 

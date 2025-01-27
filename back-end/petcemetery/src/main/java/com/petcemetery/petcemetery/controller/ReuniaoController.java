@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.petcemetery.petcemetery.DTO.ReuniaoDTO;
@@ -30,7 +31,7 @@ public class ReuniaoController {
     // Salva uma reuniao no banco de dados, com base no cpf do cliente e nos parâmetros que ele escolheu na página (data, horário e assunto)
     // A data deve ser no formato yyyy-MM-dd, e o horário no formato hh:mm, e o assunto deve ser uma String. Deve ser enviado no formato JSON.
     @PostMapping("/cliente/{cpf}/agendar")
-    public boolean agendarReuniao(@PathVariable String cpf, @RequestBody Reuniao reuniao) {
+    public boolean agendarReuniao(@PathVariable String cpf, @RequestBody ReuniaoDTO reuniao) {
         return this.reuniaoService.agendarReuniao(cpf, reuniao);
     }
 }

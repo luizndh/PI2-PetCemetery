@@ -7,10 +7,13 @@ import React, { useEffect, useState } from 'react';
 import '../Styles/quem-somos.css';
 import NavBar from '../components/NavBar';
 import Titulo from '../components/Titulo';
-import { getUrlParams } from '../utils/utils';
+
+import { useNavigate } from 'react-router-dom';
 const mainTheme = createTheme({ palette: { mode: 'dark', }, });
 
+
 function QuemSomos() {
+    const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const cpf = sessionStorage.getItem('cpf');
 
@@ -32,7 +35,7 @@ function QuemSomos() {
             Estamos comprometidos em fornecer um ambiente tranquilo e sereno para homenagear a vida de seus pets. Nossa equipe de funcionários é apaixonada por ajudar nossos clientes a encontrar o caminho certo para lembrar e honrar seus pets, e estamos sempre disponíveis para ajudar em qualquer necessidade que possam ter.
             Se você está procurando um lugar para homenagear a vida do seu pet, esperamos que você considere nossa empresa. Estamos honrados em poder cuidar de você e seu pets em um dos momentos mais difíceis da vida.
           </Typography>
-          <Button variant="contained" href="/ContratacaoPlanos">Conheça nossos planos</Button>
+          <Button variant="contained" component="a" onClick={() => { navigate(`/ContratacaoPlanos`) }}>Conheça nossos planos</Button>
         </Box>
       </Container>
     </ThemeProvider>

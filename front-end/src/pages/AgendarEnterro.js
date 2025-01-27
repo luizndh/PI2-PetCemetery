@@ -52,20 +52,10 @@ function AgendarEnterro() {
     console.log("Espécie: " + especie);
     console.log("Data de nascimento: " + dataNascimento);
 
-    try {
-      const response = await agendarEnterro(cpf, idJazigo, enterro.data, enterro.horario, nomePet, especie, dataNascimento);
-      console.log(response);
-      let resp = response.split(';');
-      if (resp[0] === "OK") {
-        console.log(resp);
-        setModalOpen(true);
-      } else {
-        console.error('Erro ao agendar enterro:', response);
-      }
-    } catch (error) {
-      console.error('Erro ao agendar enterro:', error);
-    }
-  };
+
+    await agendarEnterro(cpf, idJazigo, enterro.data, enterro.horario, nomePet, especie, dataNascimento);
+    setModalOpen(true);
+  }
 
   return (
     <ThemeProvider theme={mainTheme}>

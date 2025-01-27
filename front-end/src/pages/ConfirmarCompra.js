@@ -5,29 +5,28 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react'; // Import useState
 import { useNavigate } from 'react-router-dom';
 import '../Styles/home.css';
-import Carrinho, { Servico } from '../components/Carrinho';
-import clearCart from '../components/Carrinho';
+import Carrinho from '../components/Carrinho';
 import ModalOk from '../components/ModalOk';
 import NavBar from '../components/NavBar';
 import Titulo from '../components/Titulo';
-import { getInformacoesCarrinho, finalizarCompraCarrinho } from '../components/api';
+import { finalizarCompraCarrinho } from '../components/api';
+
 const mainTheme = createTheme({ palette: { mode: 'dark' } });
 
 function ConfirmarCompra() {
+  const [cartItems, setCartItems] = useState([]);
   const cpf = sessionStorage.getItem('cpf');
 
   console.log("cpf: " + cpf);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [resp, setResp] = useState([]);
 
   const handleHome = () => { navigate('/Home'); };
-
-  const handleLogout = () => { navigate('/'); };
 
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
+    console.log("AAAAAAAAA")
     handleCompra();
     setModalOpen(true);
   };
@@ -35,15 +34,36 @@ function ConfirmarCompra() {
 
   const handleCompra = async (e) => {
     let conteudoCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    console.log(conteudoCarrinho);
+    console.log("CARRINHOOO")
+    console.log(conteudoCarrinho)
+    let id = conteudoCarrinho[0].jazigoId;
+    let planoSelecionado = conteudoCarrinho[0].selectedOrnament;
+    let tipo = conteudoCarrinho[1].tipo;
+    let resp = await finalizarCompraCarrinho(cpf, id, planoSelecionado, tipo);
     clearCart();
 
-    var resp;
+    // resp = await finalizarCompraCarrinho(cpf, conteudoCarrinho);
 
-    resp = await finalizarCompraCarrinho(cpf, conteudoCarrinho);
-
-    console.log("resp: " + resp);
+    // console.log("resp: " + resp);
   };
+
+  const clearCart = () => {
+    for (let i = 0; i < cartItems.length; i++) {
+        removeItem(i);
+    }
+};
+
+const salvarItensCarrinho = (items) => {
+    localStorage.setItem('carrinho', JSON.stringify(items));
+};
+
+const removeItem = (idParaRemover) => {
+    const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const carrinhoNovo = carrinhoAtual.filter(item => item.id !== idParaRemover);
+    salvarItensCarrinho(carrinhoNovo);
+
+    setCartItems(carrinhoNovo);
+};
 
   return (
     <ThemeProvider theme={mainTheme}>

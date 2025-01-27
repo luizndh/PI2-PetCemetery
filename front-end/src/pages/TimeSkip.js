@@ -25,19 +25,11 @@ function TimeSkip() {
     };
 
     const handleConfirmDate = async () => {
-      if (selectedDate) {
-        // Fazer algo com a data selecionada, como enviar para o servidor
-        console.log('Data selecionada:', selectedDate);
-        const response = await alterarDataAtual(format(selectedDate.$d, "yyyy-MM-dd"));
-        let resp = response.split(';');
-        if (resp[0] === "OK") {
-              console.log(response);
-              setModalOpen(true);
-        } 
-      } else {
-        console.log('Nenhuma data selecionada.');
-      }
-    };
+        if (selectedDate) {
+            await alterarDataAtual(format(selectedDate.$d, "yyyy-MM-dd"));
+            setModalOpen(true);
+        };
+    }
 
     return (
       <ThemeProvider theme={mainTheme}>

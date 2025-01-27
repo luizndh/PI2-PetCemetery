@@ -12,7 +12,7 @@ public class DetalharJazigoDTO{
     String dataNascimento;
     String especiePet;
     String nomeProrietario;
-    String endereçoJazigo;
+    String enderecoJazigo;
     String dataEnterro;
     String ornamentacao;
     String mensagemLapide;
@@ -41,7 +41,7 @@ public class DetalharJazigoDTO{
         }
 
         this.nomeProrietario = jazigo.getProprietario().getNome();
-        this.endereçoJazigo = jazigo.getEndereco();
+        this.enderecoJazigo = jazigo.getEndereco();
         this.mensagemLapide = jazigo.getMensagem();
         this.urlImagem = jazigo.getFoto();
     }

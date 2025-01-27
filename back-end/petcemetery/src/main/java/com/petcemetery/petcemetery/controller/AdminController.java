@@ -62,7 +62,7 @@ public class AdminController {
     private JazigoService jazigoService;
 
     // Retorna, em formato JSON, informações sobre todos os pets que já passaram no jazigo passado pelo seu id.
-    @GetMapping("/{id}/visualizar-historico")
+    @GetMapping("/{id}/historico")
     public List<HistoricoJazigoDTO> visualizarHistorico(@PathVariable Long id) {
         return this.adminService.visualizarHistorico(id);
     }
@@ -110,7 +110,7 @@ public class AdminController {
     }
 
     // Visualizar clientes inadimplentes
-    @GetMapping("/relatorio")
+    @GetMapping("/inadimplentes")
     public List<ClienteInadimplenteDTO> findInadimplentes() {
         return this.clienteService.findInadimplentes();
     }

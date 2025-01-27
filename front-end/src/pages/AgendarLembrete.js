@@ -103,12 +103,12 @@ function AgendarLembrete() {
       let resp = await adicionarLembrete(cpf, format(valorData.$d, "yyyy-MM-dd"));
       console.log(resp);
 
-      if (resp == "ERR;data_invalida") {
-        setErrMsg("Data inválida");
-      }
-      else if (resp == "OK;lembrete_adicionado") {
+      if (resp === true) {
         setErrMsg("");
         setModalOpen(true);
+      }
+      else {
+        setErrMsg("Data inválida");
       }
     }
     else {

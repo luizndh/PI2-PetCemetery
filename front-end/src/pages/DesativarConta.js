@@ -25,46 +25,23 @@ function DesativarConta() {
 
   const handleLoad = async (e) => {
     let resp = await getExibirPerfil(cpf);
-    console.log(resp);
+    if(resp.mensagem) {
+        setErrMsg(resp.mensagem)
+        return;
+    }
 
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
-
-    if (resp[0] == "OK") {
-      setNome(resp[1]);
-      setEmail(resp[2]);
-    }
-    else if (resp[0] == "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] == "conta_desativada") setErrMsg("Essa conta já está desativada");
-      else setErrMsg("Erro desconhecido");
-    }
-    else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
-    }
+    setNome(resp.nome);
+    setEmail(resp.email);
   }
   handleLoad();
 
   const handleDesativar = async (e) => {
     let resp = await desativarPerfilPost(cpf);
-    console.log(resp);
-
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
-
-    if (resp[0] == "OK") {
-      console.log("Conta desativada. CPF= " + resp[1]);
+    if (resp === true) {
       setIsModalOpen(true);
     }
-    else if (resp[0] == "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] == "conta_desativada") setErrMsg("Essa conta já está desativada");
-      else setErrMsg("Erro desconhecido");
-    }
     else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
+        setErrMsg(resp.mensagem);
     }
   }
 

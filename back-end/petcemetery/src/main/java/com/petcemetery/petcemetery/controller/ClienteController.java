@@ -51,7 +51,7 @@ public class ClienteController {
     }
 
     // Retorna os dados do cliente, menos a senha e CPF, na tela AlterarPerfil.js, para serem exibidos no editar perfil. Isso evita o cliente ter que escrever tudo de novo.
-    @GetMapping("/alterar-perfil")
+    @GetMapping("/alterar")
     public ClienteDTO getAlterarPerfil(@PathVariable String cpf) {
         return this.clienteService.recuperaInformacoesAlteracao(cpf);
     }

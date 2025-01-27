@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class AquisicaoJazigoDTO {
 
-    String endereço;
+    String endereco;
     double valor;
 
-    public AquisicaoJazigoDTO(String endereço, double valor) {
-        this.endereço = endereço;
+    public AquisicaoJazigoDTO(String endereco, double valor) {
+        this.endereco = endereco;
         this.valor = valor;
     }
 }

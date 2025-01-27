@@ -64,7 +64,7 @@ const ListaJazigos = ({ cliente, admin }) => {
               ) : (
                 <Typography variant="h6">Data de Enterro: </Typography>
               )}
-              <Typography variant="h6">Endereço: {jazigo.endereco}</Typography>
+              <Typography variant="h6">endereco: {jazigo.endereco}</Typography>
               <Typography variant="h6">Plano: {jazigo.plano}</Typography>
               {jazigo.dataNascimento ? (
                 <Typography variant="h6">Data de Nascimento: {format(new Date(jazigo.dataNascimento), 'dd/MM/yyyy')}</Typography>

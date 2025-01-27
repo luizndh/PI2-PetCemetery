@@ -39,7 +39,7 @@ function AgendarExumacao() {
       const response = await personalizarJazigo(cpf, idJazigo, "", "");
 
       // Armazenar a URL da imagem selecionada no armazenamento local
-      localStorage.setItem('urlFoto', "");
+      sessionStorage.setItem('urlFoto', "");
 
       if (response === 'OK;Mensagem_editada') {
         console.log("Mensagem de jazigo resetada com sucesso");

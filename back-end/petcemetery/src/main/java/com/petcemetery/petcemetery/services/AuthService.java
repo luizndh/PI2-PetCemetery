@@ -27,10 +27,10 @@ public class AuthService {
                 throw new IllegalArgumentException("Cliente desativado");
             }
 
-        return cliente.getCpf();
+        return "cliente;" + cliente.getCpf();
 
         } else if (admin != null) {
-            return admin.getCpf();
+            return "admin;" + admin.getCpf();
 
         } else {
             throw new IllegalArgumentException("Email ou senha incorretos");
@@ -45,7 +45,7 @@ public class AuthService {
             || StringUtils.isBlank(senhaRepetida)
             || StringUtils.isBlank(cep) || StringUtils.isBlank(rua) || StringUtils.isBlank(numero) || StringUtils.isBlank(cpf)
             || StringUtils.isBlank(telefone)) {
-            
+
             throw new IllegalArgumentException("Preencha todos os campos necessários");
 
             // Checa se a senha é igual a senha repetida e exibe uma mensagem de erro

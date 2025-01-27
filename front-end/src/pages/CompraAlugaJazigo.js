@@ -23,22 +23,12 @@ function CompraAlugaJazigo() {
   const cpf = sessionStorage.getItem('cpf');
   const tipo = getUrlParams('tipo');
 
-  const getJazigoInfo = async (e) => { //formato: STATUS;endereco;preco
+  const getJazigoInfo = async (e) => {
     let resp = "";
     resp = await getCompraJazigo(cpf, jazigoId, tipo);
 
-    console.log(resp);
-
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); return; }
-
-    if (resp[0] == "OK") {
-      setEndereco(resp[1]);
-      setPreco(resp[2]);
-    }
-    else {
-      console.log("Erro desconhecido na conexao com o back");
-    }
+    setEndereco(resp.endereco);
+    setPreco(resp.valor);
   }
 
   useEffect(() => {

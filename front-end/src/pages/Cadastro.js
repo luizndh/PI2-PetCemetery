@@ -79,24 +79,12 @@ function Cadastro() {
   const handleCadastro = async (e) => {
     let resp = await cadastroPost(emailInput, senhaInput, repitaSenhaInput, nomeInput, cpfInput, telefoneInput, ruaInput, numeroInput, complementoInput, cepInput);
     console.log(resp);
-
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
-
-    if (resp[0] == "OK") {
+    console.log(cpfInput);
+    if (resp.toString() === cpfInput) {
       navigate(`/`);
     }
-    else if (resp[0] == "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] == "senhas_diferentes") { setErrMsg("As senhas digitadas não são iguais"); }
-      else if (resp[1] == "email_invalido") { setErrMsg("O email digitado não é válido"); }
-      else if (resp[1] == "email_ja_cadastrado") { setErrMsg("O email digitado já está cadastrado"); }
-      else if (resp[1] == "campo_vazio") { setErrMsg("Preencha todos os campos"); }
-      else { setErrMsg("Erro desconhecido"); }
-    }
     else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
+        setErrMsg(resp);
     }
   }
 

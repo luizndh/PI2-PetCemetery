@@ -30,31 +30,21 @@ function AlterarPerfil() {
   const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
-    const handleLoad = async (e) => {
-      let resp = await getAlterarPerfil(cpf);
-      console.log(resp);
+    const handleLoad = async () => {
+        let resp = await getAlterarPerfil(cpf);
 
-      if (resp != null) resp = resp.split(';');
-      else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
+        if(resp.error) {
+            setErrMsg(resp.message)
+            return;
+        }
 
-      if (resp[0] == "OK") {
-        setEmailInput(resp[1]);
-        setNomeInput(resp[2]);
-        setTelefoneInput(resp[3]);
-        setRuaInput(resp[4]);
-        setNumeroInput(resp[5]);
-        setComplementoInput(resp[6]);
-        setCepInput(resp[7]);
-      }
-      else if (resp[0] == "ERR") {
-        console.log("ERRO! motivo: " + resp[1]);
-        if (resp[1] == "conta_desativada") setErrMsg("Conta desativada");
-        else setErrMsg("Erro desconhecido");
-      }
-      else {
-        console.log("Erro na formatacao de resposta do servidor");
-        setErrMsg("Erro na formatação de resposta do servidor");
-      }
+        setEmailInput(resp.email);
+        setNomeInput(resp.nome);
+        setTelefoneInput(resp.telefone);
+        setRuaInput(resp.rua);
+        setNumeroInput(resp.numero);
+        setComplementoInput(resp.complemento);
+        setCepInput(resp.cep);
     }
     handleLoad();
   }, []);
@@ -110,26 +100,14 @@ function AlterarPerfil() {
 
   const handleAlterar = async (e) => {
     let resp = await editarPerfilPost(nomeInput, emailInput, telefoneInput, ruaInput, numeroInput, complementoInput, cepInput, senhaInput, repitaSenhaInput, cpf);
-    console.log(resp);
 
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
-
-    if (resp[0] == "OK") {
-      console.log("cpf do cliente: " + resp[1]);
+    if (resp === true) {
       navigate(`/Home`);
     }
-    else if (resp[0] == "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] == "senhas_nao_coincidem") { setErrMsg("As senhas digitadas não são iguais"); }
-      else if (resp[1] == "email_invalido") { setErrMsg("O email digitado não é válido"); }
-      else if (resp[1] == "email_ja_cadastrado") { setErrMsg("O email digitado já está cadastrado"); }
-      else if (resp[1] == "campo_vazio") { setErrMsg("Preencha todos os campos"); }
-      else { setErrMsg("Erro desconhecido"); }
-    }
     else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
+        console.log("errooo")
+        console.log(resp)
+        setErrMsg(resp);
     }
   }
 

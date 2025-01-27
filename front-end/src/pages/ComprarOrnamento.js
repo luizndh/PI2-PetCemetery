@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Titulo from '../components/Titulo';
 import { getUrlParams } from '../utils/utils';
-import { getCompraJazigoPlanos, addItemCarrinho } from '../components/api';
+import { getCompraJazigoPlanos, getValorServico } from '../components/api';
 
 const mainTheme = createTheme({ palette: { mode: 'dark', }, });
 
@@ -23,24 +23,24 @@ function ComprarOrnamento() {
   const [precoBasic, setPrecoBasic] = useState(0);
   const [precoSilver, setPrecoSilver] = useState(0);
   const [precoGold, setPrecoGold] = useState(0);
+  const [precoCompra, setPrecoCompra] = useState(0);
+  const [precoAluguel, setPrecoAluguel] = useState(0);
 
-  const getPlanoInfo = async (e) => { //formato: STATUS;endereco;preco
+  const getPlanoInfo = async () => {
     let resp = "";
     resp = await getCompraJazigoPlanos(cpf, jazigoId);
 
-    console.log(resp);
+    setPrecoBasic(resp[0].valor);
+    setPrecoSilver(resp[1].valor);
+    setPrecoGold(resp[2].valor);
 
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); return; }
+    let resp2 = await getValorServico(cpf, jazigoId, "COMPRA")
+    let resp3 = await getValorServico(cpf, jazigoId, "ALUGUEL")
 
-    if (resp[0] == "OK") {
-      setPrecoBasic(resp[2]);
-      setPrecoSilver(resp[4]);
-      setPrecoGold(resp[6]);
-    }
-    else {
-      console.log("Erro desconhecido na conexao com o back");
-    }
+    console.log(tipo)
+
+    setPrecoCompra(resp2);
+    setPrecoAluguel(resp3);
   }
 
   useEffect(() => {
@@ -55,15 +55,23 @@ function ComprarOrnamento() {
     //await addItemCarrinho(cpf, jazigoId, selectedOrnament, tipo);
     const carrinhoAtual = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-    const item = {
+    const itemPersonalizacao = {
       id: carrinhoAtual.length,
       jazigoId: jazigoId,
       selectedOrnament: selectedOrnament,
-      tipo: tipo.toUpperCase(),
+      tipo: 'PERSONALIZACAO',
       valor: selectedOrnament === 'basic' ? precoBasic : selectedOrnament === 'silver' ? precoSilver : precoGold
     };
-    
-    const novoCarrinho = [...carrinhoAtual, item];
+
+    const itemAquisicao = {
+        id: carrinhoAtual.length+1,
+        jazigoId: jazigoId,
+        selectedOrnament: selectedOrnament,
+        tipo: tipo.toUpperCase(),
+        valor: tipo.toUpperCase() === 'COMPRA' ? precoCompra : precoAluguel
+      };
+
+    const novoCarrinho = [...carrinhoAtual, itemPersonalizacao, itemAquisicao];
     localStorage.setItem('carrinho', JSON.stringify(novoCarrinho));
 
     navigate(`/ConfirmarCompra`);

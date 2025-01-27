@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo } from '../logo.svg';
 import IconCarrinho from './IconCarrinho';
-import { getInformacoesCarrinho } from './api';
 import './navbar.css';
 
 
@@ -47,8 +46,6 @@ const NavBar = ({ page, isLoggedIn, isAdmin }) => {
     const [numItensCarrinho, setNumItensCarrinho] = useState("");
 
     const getInfoCarrinho = () => {
-        const cpf = sessionStorage.getItem('cpf');
-
         try {
             const data = JSON.parse(localStorage.getItem('carrinho')) || [];
             if (data.length === 0) setNumItensCarrinho("");
@@ -96,25 +93,25 @@ const NavBar = ({ page, isLoggedIn, isAdmin }) => {
                     </Box>
 
                     <Stack direction='row' spacing={2}>
-                        <Button color={color1} variant="contained" href={isAdmin ? `/HomeAdmin` : (isLoggedIn ? `/Home` : '/')}>Home</Button>
-                        <Button color={color2} variant="contained" href={isLoggedIn ? `/QuemSomos` : '/QuemSomos'}>Quem Somos</Button>
-                        <Button color={color3} variant="contained" href={isLoggedIn ? `/ContratacaoPlanos` : '/ContratacaoPlanos'}>Planos</Button>
-                        <Button color={color4} variant="contained" href={isLoggedIn ? `/Contato` : '/Contato'}>Contato</Button>
+                        <Button color={color1} component="a" variant="contained" onClick={() => { isAdmin ? navigate(`/HomeAdmin`) : (isLoggedIn ? navigate(`/Home`) : navigate(`/`))}}>Home</Button>
+                        <Button color={color2} component="a" variant="contained" onClick={() => { navigate(`/QuemSomos`) }}>Quem Somos</Button>
+                        <Button color={color3} component="a" variant="contained" onClick={() => { navigate(`/ContratacaoPlanos`) }}>Planos</Button>
+                        <Button color={color4} component="a" variant="contained" onClick={() => { navigate(`/Contato`) }}>Contato</Button>
                     </Stack>
 
                     <Box sx={{ position: "fixed", top: 0, right: 0, zIndex: 2000, padding: 2 }}>
                         {(!isLoggedIn && !isAdmin) &&
                             <Stack spacing={2} direction='row'>
-                                <Button variant="contained" href="/Login">Login</Button>
-                                <Button variant="contained" color="secondary" href="/Cadastro">Cadastro</Button>
+                                <Button variant="contained" onClick={() => { navigate(`/Login`) }}>Login</Button>
+                                <Button variant="contained" color="secondary" onClick={() => { navigate(`/Cadastro`) }}>Cadastro</Button>
                             </Stack>
                         }
                         {(isLoggedIn) &&
 
                             <Stack spacing={1} direction="row" alignItems="center">
-                                <Button variant="contained" color="primary" href={`/ExibirPerfil`}> Meu Perfil </Button>
-                                <Button variant="contained" color="error" onClick={() => handleLogout()} href={'/'}> Logout </Button>
-                                <Button variant="contained" color="secondary" href={'/ConfirmarCompra'}> <IconCarrinho href={'/ConfirmarCompra'} /> <Typography sx={{ spacingLeft: 2 }} variant="subtitle">{numItensCarrinho}</Typography> </Button>
+                                <Button variant="contained" component="a" color="primary" onClick={() => { navigate(`/ExibirPerfil`) }}> Meu Perfil </Button>
+                                <Button variant="contained" component="a" color="error" onClick={() => handleLogout()}> Logout </Button>
+                                <Button variant="contained" component="a" color="secondary" onClick={() => { navigate(`/ConfirmarCompra`) }}> <IconCarrinho onClick={() => { navigate(`/ConfirmarCompra`) }} /> <Typography sx={{ spacingLeft: 2 }} variant="subtitle">{numItensCarrinho}</Typography> </Button>
                             </Stack>
                         }
                         {(isAdmin) &&

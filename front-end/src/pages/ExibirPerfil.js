@@ -25,26 +25,10 @@ function ExibirPerfil() {
 
   const [errMsg, setErrMsg] = useState("");
 
-  const handleLoad = async (e) => {
+  const handleLoad = async () => {
     let resp = await getExibirPerfil(cpf);
-    console.log(resp);
-
-    if (resp != null) resp = resp.split(';');
-    else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
-
-    if (resp[0] == "OK") {
-      setNome(resp[1]);
-      setEmail(resp[2]);
-    }
-    else if (resp[0] == "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] == "conta_desativada") setErrMsg("Conta desativada");
-      else setErrMsg("Erro desconhecido");
-    }
-    else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
-    }
+    setNome(resp.nome);
+    setEmail(resp.email);
   }
   handleLoad();
 
@@ -68,8 +52,8 @@ function ExibirPerfil() {
 
         <Box sx={{ margin: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <Stack spacing={2} direction='column' divider={<Divider orientation="horizontal" flexItem />}>
-            <Button variant="contained" href={`/AlterarPerfil?cpf=${cpf}`}>Alterar Informações da Conta</Button>
-            <Button variant="contained" color="secondary" href={`/Home?cpf=${cpf}`}>Cancelar</Button>
+            <Button variant="contained" onClick={() => { navigate(`/AlterarPerfil?cpf=${cpf}`) }}>Alterar Informações da Conta</Button>
+            <Button variant="contained" color="secondary" onClick={() => { navigate(`/Home?cpf=${cpf}`) }}>Cancelar</Button>
             <Button variant="contained" color="error" onClick={() => { handleDesativar(); }}>Desativar Conta</Button>
           </Stack>
         </Box>

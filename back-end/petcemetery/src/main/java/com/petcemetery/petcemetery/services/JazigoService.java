@@ -23,9 +23,11 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.petcemetery.petcemetery.DTO.AquisicaoJazigoDTO;
+import com.petcemetery.petcemetery.DTO.CarrinhoDTO;
 import com.petcemetery.petcemetery.DTO.DetalharJazigoDTO;
 import com.petcemetery.petcemetery.DTO.JazigoDTO;
 import com.petcemetery.petcemetery.DTO.JazigoPerfilDTO;
+import com.petcemetery.petcemetery.model.Cliente;
 import com.petcemetery.petcemetery.model.Contrato;
 import com.petcemetery.petcemetery.model.Jazigo;
 import com.petcemetery.petcemetery.model.Jazigo.StatusEnum;
@@ -127,7 +129,7 @@ public class JazigoService {
 
             table.addCell(new PdfPCell(new Phrase("PET", font)));
             table.addCell(new PdfPCell(new Phrase("DATA ENTERRO", font)));
-            table.addCell(new PdfPCell(new Phrase("ENDEREÇO", font)));
+            table.addCell(new PdfPCell(new Phrase("endereco", font)));
             table.addCell(new PdfPCell(new Phrase("ID JAZIGO", font)));
             table.addCell(new PdfPCell(new Phrase("DATA NASC.", font)));
             table.addCell(new PdfPCell(new Phrase("ESPÉCIE", font)));
@@ -179,6 +181,8 @@ public class JazigoService {
 
     public List<JazigoDTO> recuperaJazigosProprietario(String cpf_proprietario) {
         List<Jazigo> listaJazigos = repository.findByProprietarioCpf(cpf_proprietario);
+        System.out.println(listaJazigos);
+        System.out.println(listaJazigos.size());
 
         List<JazigoDTO> listaJazigosDTO = new ArrayList<>();
 
@@ -318,4 +322,30 @@ public class JazigoService {
         }
     }
 
+    public boolean finalizarCompra(String cpf, List<CarrinhoDTO> carrinho) {
+
+        for(int i = 0; i < carrinho.size(); i++) {
+            Jazigo jazigo = repository.findByIdJazigo(carrinho.get(i).getJazigoId());
+            if(jazigo == null) throw new NoSuchElementException("Jazigo não encontrado");
+            ServicoEnum servico = ServicoEnum.valueOf(carrinho.get(i).getTipo().toUpperCase());
+            Pet pet = null;
+            if(jazigo.getPetEnterrado() != null) pet = jazigo.getPetEnterrado();
+            Contrato contratoPlano = new Contrato(carrinho.get(i).getValor(), clienteService.findByCpf(cpf), jazigo, pet, LocalDateTime.now(), this.servicoService.findByTipoServico(servico));
+            contratoService.save(contratoPlano);
+
+            if(carrinho.get(i).getTipo().toUpperCase().equals("PERSONALIZACAO")) {
+                Contrato contratoTipoServico = new Contrato(carrinho.get(i).getValor(), clienteService.findByCpf(cpf), jazigo, pet, LocalDateTime.now(), this.servicoService.findByTipoServico(ServicoEnum.valueOf(carrinho.get(i).getTipo().toUpperCase())));
+                contratoService.save(contratoTipoServico);
+                Cliente cliente = this.clienteService.findByCpf(cpf);
+
+                jazigo.setProprietario(cliente);
+                jazigo.setPlano(servico);
+                repository.save(jazigo);
+                i++;
+                continue;
+            }
+        }
+
+        return true;
+    }
 }

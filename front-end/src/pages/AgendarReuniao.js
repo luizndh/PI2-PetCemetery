@@ -27,20 +27,15 @@ function AgendarReuniao() {
     navigate(`/Home`);
   };
 
-  const handleLogout = () => {
-    navigate('/');
-  };
-
   const handleAgendar = async () => { // Função atualizada
     const reuniao = {
-        data: selectedDate,
-        horario: selectedTime,
+        data: selectedDate + " " + selectedTime,
         assunto: selectedAssunto
     };
 
     try {
-        const response = await agendarReuniao(cpf, reuniao.data, reuniao.horario, reuniao.assunto);
-        if (response === "OK;") {
+        const response = await agendarReuniao(cpf, reuniao.assunto, reuniao.data);
+        if (response === true) {
             setModalOpen(true);
         } else {
             console.error('Erro ao agendar reunião:', response);
@@ -51,8 +46,8 @@ function AgendarReuniao() {
   };
 
   const handleDateChange = (event) => { setSelectedDate(format(event.$d, "yyyy-MM-dd")); console.log(selectedDate); };
-  const handleTimeChange = (event) => { 
-    setSelectedTime(event.target.value + ""); 
+  const handleTimeChange = (event) => {
+    setSelectedTime(event.target.value + "");
 };
   const handleAssuntoChange = (event) => { setSelectedAssunto(event.target.value); };
 

@@ -29,7 +29,7 @@ const PersonalizarJazigo = () => {
 
   useEffect(() => {
     // Recuperar a URL da imagem do armazenamento local
-    const cachedUrlFoto = localStorage.getItem(`urlFoto${id}`);
+    const cachedUrlFoto = sessionStorage.getItem(`urlFoto${id}`);
 
     if (cachedUrlFoto) {
       setFoto(cachedUrlFoto);
@@ -110,7 +110,7 @@ const PersonalizarJazigo = () => {
 
         // Armazenar os dados da imagem como uma string base64 no estado e no armazenamento local
         setFoto(imageData);
-        localStorage.setItem(`urlFoto${id}`, imageData);
+        sessionStorage.setItem(`urlFoto${id}`, imageData);
       };
 
       reader.readAsDataURL(file);

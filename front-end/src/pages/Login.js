@@ -2,7 +2,6 @@ import { Button, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
@@ -39,31 +38,24 @@ function Login() {
     }
   };
 
-  const handleLogin = async (e) => { //formato: STATUS;tipo_cliente;cpf
+  const handleLogin = async () => { //formato: tipo_cliente;cpf
     let resp = await loginPost(emailInput, passwordInput);
     console.log(resp);
 
     if (resp != null) resp = resp.split(';');
     else { console.log("Resposta do back = null"); setErrMsg("Erro na conexão com o servidor. Verifique sua rede"); return; }
 
-    if (resp[0] === "OK") {
-      sessionStorage.setItem('usuario', resp[1]); // Armazena o tipo de usuário em sessão
-      sessionStorage.setItem('cpf', resp[2]); // Armazena o CPF do usuário em sessão
-      if (resp[1] === "cliente") {
+    if (!isNaN(resp[1])) {
+      sessionStorage.setItem('usuario', resp[0]); // Armazena o tipo de usuário em sessão
+      sessionStorage.setItem('cpf', resp[1]); // Armazena o CPF do usuário em sessão
+      if (resp[0] === "cliente") {
         navigate(`/Home`);
-      } else if (resp[1] === "admin") {
+      } else if (resp[0] === "admin") {
         navigate(`/HomeAdmin`);
       }
     }
-    else if (resp[0] === "ERR") {
-      console.log("ERRO! motivo: " + resp[1]);
-      if (resp[1] === "email_invalido") setErrMsg("Email inválido");
-      else if (resp[1] === "senha_invalida") setErrMsg("Senha inválida");
-      else if (resp[1] === "conta_desativada") setErrMsg("Esta conta foi desativada");
-    }
     else {
-      console.log("Erro na formatacao de resposta do servidor");
-      setErrMsg("Erro na formatação de resposta do servidor");
+        setErrMsg(resp);
     }
   }
 

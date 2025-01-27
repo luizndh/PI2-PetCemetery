@@ -11,8 +11,8 @@ import logo from '../logo.png';
 const mainTheme = createTheme({ palette: { mode: 'dark', }, });
 
 function PaginaInicial() {
-  sessionStorage.clear();
-  
+  //sessionStorage.clear();
+
   return (
     <ThemeProvider theme={mainTheme}>
       <CssBaseline />

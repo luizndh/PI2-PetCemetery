@@ -1,18 +1,18 @@
 package com.petcemetery.petcemetery.DTO;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ReuniaoDTO {
     private String cpfCliente;
     private String data;
     private String assunto;
 
-    public ReuniaoDTO(String cpfCliente, LocalDateTime data, String assunto) {
+    public ReuniaoDTO(String cpfCliente, String data, String assunto) {
         this.cpfCliente = cpfCliente;
-        this.data = data.toString();
+        this.data = data;
         this.assunto = assunto;
     }
 }
