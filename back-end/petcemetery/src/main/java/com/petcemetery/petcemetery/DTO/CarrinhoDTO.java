@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CarrinhoDTO {
     Long id;
-    Long jazigoId;
+    String jazigoId;
     String selectedOrnament;
     String tipo;
     double valor;

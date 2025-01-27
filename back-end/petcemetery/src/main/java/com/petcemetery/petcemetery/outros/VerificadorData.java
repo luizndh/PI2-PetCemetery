@@ -20,6 +20,7 @@ import com.petcemetery.petcemetery.repositorio.LembreteRepository;
 import com.petcemetery.petcemetery.repositorio.PagamentoRepository;
 import com.petcemetery.petcemetery.repositorio.ReuniaoRepository;
 import com.petcemetery.petcemetery.services.EmailService;
+import com.petcemetery.petcemetery.services.PagamentoService;
 
 @Component
 public class VerificadorData {
@@ -41,6 +42,9 @@ public class VerificadorData {
 
     @Autowired
     private PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    private PagamentoService pagamentoService;
 
     private static LocalDate currentDate = LocalDate.now();
 
@@ -69,7 +73,12 @@ public class VerificadorData {
 
             LocalDate dataEnterro = contrato.getDataServico().toLocalDate();
 
-            if (dataEnterro.equals(dataAtual) && contrato.getJazigo().getPetEnterrado() == null) {
+
+            if ((dataEnterro.equals(dataAtual) || dataEnterro.isAfter(dataAtual))  && contrato.getJazigo().getPetEnterrado() == null) {
+                Pagamento pagamento = pagamentoService.findByContrato(contrato);
+                if(pagamento == null || !pagamento.isPago()) {
+                    continue;
+                }
                 Jazigo jazigo = contrato.getJazigo();
                 jazigo.setPetEnterrado(contrato.getPet());
                 if(jazigo.getHistoricoPets().contains(contrato.getPet())) {

@@ -30,6 +30,7 @@ import com.petcemetery.petcemetery.DTO.JazigoPerfilDTO;
 import com.petcemetery.petcemetery.model.Cliente;
 import com.petcemetery.petcemetery.model.Contrato;
 import com.petcemetery.petcemetery.model.Jazigo;
+import com.petcemetery.petcemetery.model.Pagamento;
 import com.petcemetery.petcemetery.model.Jazigo.StatusEnum;
 import com.petcemetery.petcemetery.model.Pet;
 import com.petcemetery.petcemetery.model.Servico;
@@ -53,6 +54,9 @@ public class JazigoService {
 
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private PagamentoService pagamentoService;
 
     public Jazigo findById(Long id) {
         return repository.findById(id).orElse(null);
@@ -325,25 +329,31 @@ public class JazigoService {
     public boolean finalizarCompra(String cpf, List<CarrinhoDTO> carrinho) {
 
         for(int i = 0; i < carrinho.size(); i++) {
-            Jazigo jazigo = repository.findByIdJazigo(carrinho.get(i).getJazigoId());
+            Jazigo jazigo = repository.findByIdJazigo(Long.valueOf(carrinho.get(i).getJazigoId()));
             if(jazigo == null) throw new NoSuchElementException("Jazigo não encontrado");
+            Cliente cliente = this.clienteService.findByCpf(cpf);
             ServicoEnum servico = ServicoEnum.valueOf(carrinho.get(i).getTipo().toUpperCase());
             Pet pet = null;
             if(jazigo.getPetEnterrado() != null) pet = jazigo.getPetEnterrado();
-            Contrato contratoPlano = new Contrato(carrinho.get(i).getValor(), clienteService.findByCpf(cpf), jazigo, pet, LocalDateTime.now(), this.servicoService.findByTipoServico(servico));
-            contratoService.save(contratoPlano);
 
-            if(carrinho.get(i).getTipo().toUpperCase().equals("PERSONALIZACAO")) {
-                Contrato contratoTipoServico = new Contrato(carrinho.get(i).getValor(), clienteService.findByCpf(cpf), jazigo, pet, LocalDateTime.now(), this.servicoService.findByTipoServico(ServicoEnum.valueOf(carrinho.get(i).getTipo().toUpperCase())));
-                contratoService.save(contratoTipoServico);
-                Cliente cliente = this.clienteService.findByCpf(cpf);
+            Contrato contrato = new Contrato(carrinho.get(i).getValor(), clienteService.findByCpf(cpf), jazigo, pet, LocalDateTime.now(), this.servicoService.findByTipoServico(servico));
+            contratoService.save(contrato);
 
+            if(contrato.getServico().getTipoServico().equals(ServicoEnum.COMPRA) || contrato.getServico().getTipoServico().equals(ServicoEnum.ALUGUEL)) {
                 jazigo.setProprietario(cliente);
-                jazigo.setPlano(servico);
+                jazigo.setPlano(ServicoEnum.valueOf(carrinho.get(i).getSelectedOrnament().toUpperCase()));
+                jazigo.setStatus(StatusEnum.OCUPADO);
                 repository.save(jazigo);
-                i++;
-                continue;
             }
+
+            LocalDate dataVencimento = null;
+
+            if(contrato.getServico().getTipoServico().equals(ServicoEnum.ALUGUEL)) {
+                dataVencimento = LocalDate.now().plusMonths(1);
+            }
+
+            Pagamento pagamento = new Pagamento(cliente, carrinho.get(i).getValor(), LocalDate.now(), dataVencimento, true, contrato, null);
+            pagamentoService.save(pagamento);
         }
 
         return true;
