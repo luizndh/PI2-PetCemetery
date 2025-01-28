@@ -34,23 +34,12 @@ function ConfirmarCompra() {
 
   const handleCompra = async (e) => {
     let conteudoCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    console.log("CARRINHOOO")
-    console.log(conteudoCarrinho)
-    let id = conteudoCarrinho[0].jazigoId;
-    let planoSelecionado = conteudoCarrinho[0].selectedOrnament;
-    let tipo = conteudoCarrinho[1].tipo;
-    let resp = await finalizarCompraCarrinho(cpf, id, planoSelecionado, tipo);
+    await finalizarCompraCarrinho(cpf, conteudoCarrinho);
     clearCart();
-
-    // resp = await finalizarCompraCarrinho(cpf, conteudoCarrinho);
-
-    // console.log("resp: " + resp);
   };
 
   const clearCart = () => {
-    for (let i = 0; i < cartItems.length; i++) {
-        removeItem(i);
-    }
+    localStorage.clear();
 };
 
 const salvarItensCarrinho = (items) => {
